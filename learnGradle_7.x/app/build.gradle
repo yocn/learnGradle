@@ -19,14 +19,83 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+
+    println "System.getProperty('system'):" + System.getProperty('system')
+    getGradle().addListener(new TaskExecutionListener() {
+        @Override
+        void beforeExecute(Task task) {
+            println "beforeExecute:" + task
+        }
+
+        @Override
+        void afterExecute(Task task, TaskState state) {
+            println "afterExecute:" + task
+        }
+    })
+    getGradle().addBuildListener(new BuildListener() {
+        @Override
+        Object invokeMethod(String name, Object args) {
+            println("invokeMethod   " + name + "->" + args)
+            return super.invokeMethod(name, args)
+        }
+
+        @Override
+        void settingsEvaluated(Settings settings) {
+            println("settingsEvaluated")
+        }
+
+        @Override
+        void projectsLoaded(Gradle gradle) {
+            println("projectsLoaded")
+        }
+
+        @Override
+        void projectsEvaluated(Gradle gradle) {
+            println("projectsEvaluated")
+        }
+
+        @Override
+        void buildFinished(BuildResult result) {
+            println("buildFinish::" + result)
+        }
+    })
 }
 
 dependencies {
+    println("" + this)
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation "com.android.tools.build:gradle:${rootProject.ext.gradle_build_tool_version}"
+//    implementation "com.android.tools.build:gradle:${rootProject.ext.gradle_build_tool_version}"
+}
+
+//println("->"+configurations.name)
+configurations.all {
+//    println(resolutionStrategy)
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+//        println(requested.group + "  " + requested.name + " " + requested.version)
+        if (requested.group == 'com.squareup.okhttp3' && requested.name == 'okhttp') {
+            details.useVersion '4.10.0'
+        }
+    }
+}
+
+tasks.all { task->
+    println("task->" + task)
+}
+
+tasks.register("MyTask", MyTask)
+
+class MyTask extends DefaultTask {
+    @TaskAction
+    def doAction() {
+        println("-----MyTask-> doAction" + this)
+    }
 }
