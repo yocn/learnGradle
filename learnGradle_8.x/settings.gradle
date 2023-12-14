@@ -1,5 +1,11 @@
 pluginManagement {
+    plugins {
+        id 'com.yocn.plugin.custom' version "1.0.0"
+    }
     repositories {
+        maven {
+            url './maven-repo'
+        }
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -21,3 +27,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "LearnGradle"
 include ':app'
+include ':module'

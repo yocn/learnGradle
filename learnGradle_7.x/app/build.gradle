@@ -87,10 +87,6 @@ configurations.all {
     }
 }
 
-tasks.all { task->
-    println("task->" + task)
-}
-
 tasks.register("MyTask", MyTask)
 
 class MyTask extends DefaultTask {
@@ -98,4 +94,34 @@ class MyTask extends DefaultTask {
     def doAction() {
         println("-----MyTask-> doAction" + this)
     }
+}
+
+interface CustomPluginExtension {
+    Property<String> getVersion()
+
+    Property<String> getTitle()
+}
+
+class CustomPlugin implements Plugin<Project> {
+
+    @Override
+    void apply(Project target) {
+        println("-----插件CustomPlugin apply->" + target.class.name)
+        def extension = target.extensions.create("custom", CustomPluginExtension)
+        extension.title.convention("default extension title.")
+        extension.version.convention("default extension version.")
+        target.tasks.register("customTask", {
+            println("-----Task in plugin Task title->${extension.title.get()} version->${extension.version.get()}")
+            doLast {
+                println("-----doLast Task in plugin Task title->${extension.title.get()} version->${extension.version.get()}")
+            }
+        })
+    }
+}
+
+apply plugin: CustomPlugin
+
+custom {
+    title = "custom title"
+    version = "version 1.0-00"
 }
