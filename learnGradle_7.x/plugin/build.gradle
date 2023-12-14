@@ -1,0 +1,36 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+dependencies {
+    implementation 'com.android.tools.build:gradle:7.3.0'
+}
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = 'com.yocn.plugin'
+            implementationClass = 'com.yocn.plugin.CustomPlugin'
+        }
+    }
+}
+group 'com.yocn.plugin'
+version '1.0.0'
+
+publishing {
+    // 配置Plugin GAV
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.yocn.plugin'
+            artifactId = 'custom'
+            version = '1.0.0'
+
+            from components.java
+        }
+    }
+    // 配置仓库地址
+    repositories {
+        maven {
+            url layout.buildDirectory.dir("maven-repo")
+        }
+    }
+}

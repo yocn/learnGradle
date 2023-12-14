@@ -1,2 +1,3 @@
 rootProject.name = "learnGradle-7"
 include ':app'
+include ':plugin'

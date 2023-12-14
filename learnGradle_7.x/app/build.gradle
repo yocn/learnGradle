@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.yocn.plugin'
 
 android {
     compileSdk 34
@@ -87,14 +88,14 @@ configurations.all {
     }
 }
 
-tasks.register("MyTask", MyTask)
-
-class MyTask extends DefaultTask {
-    @TaskAction
-    def doAction() {
-        println("-----MyTask-> doAction" + this)
-    }
-}
+//tasks.register("MyTask", MyTask)
+//
+//class MyTask extends DefaultTask {
+//    @TaskAction
+//    def doAction() {
+//        println("-----MyTask-> doAction" + this)
+//    }
+//}
 
 interface CustomPluginExtension {
     Property<String> getVersion()
@@ -119,9 +120,9 @@ class CustomPlugin implements Plugin<Project> {
     }
 }
 
-apply plugin: CustomPlugin
+//apply plugin: CustomPlugin
 
-custom {
-    title = "custom title"
-    version = "version 1.0-00"
-}
+//custom {
+//    title = "custom title"
+//    version = "version 1.0-00"
+//}
