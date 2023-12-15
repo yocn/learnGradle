@@ -2,9 +2,6 @@ plugins {
     id 'java-gradle-plugin'
     id 'maven-publish'
 }
-dependencies {
-    implementation 'com.android.tools.build:gradle:7.3.0'
-}
 gradlePlugin {
     plugins {
         simplePlugin {
@@ -13,9 +10,6 @@ gradlePlugin {
         }
     }
 }
-group 'com.yocn.plugin'
-version '1.0.0'
-
 publishing {
     // 配置Plugin GAV
     publications {
