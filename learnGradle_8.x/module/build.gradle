@@ -11,8 +11,6 @@ gradlePlugin {
         }
     }
 }
-group 'com.yocn.plugin'
-version '1.0.0'
 
 publishing {
     // 配置Plugin GAV
