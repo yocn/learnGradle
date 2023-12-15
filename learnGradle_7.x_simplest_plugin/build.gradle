@@ -1,0 +1,33 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+
+    ext.gradle_build_tool_version = '7.3.0'
+    repositories {
+        google()
+        mavenCentral()
+
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            url './plugin/build/maven-repo'
+        }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:${gradle_build_tool_version}"
+        classpath('com.yocn.plugin:custom:1.0.0')
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
